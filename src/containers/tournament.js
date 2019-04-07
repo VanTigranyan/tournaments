@@ -17,12 +17,18 @@ class Tournament extends Component {
         }
     }
 
+    rTournament = (idx) => {
+        const res = window.confirm('Do you wanna unselect this item?');
+        if (res) {
+            this.props.removeTournament(idx);
+        }
+    };
+
     render() {
         const {tournaments,
             getTournaments,
             pending,
             selected,
-            removeTournament,
             selectTournament,
             removeSearchResults,
         } = this.props;
@@ -38,7 +44,7 @@ class Tournament extends Component {
                 />
                 <TournamentList
                     tournaments={selected}
-                    removeTournament={removeTournament}
+                    removeTournament={this.rTournament}
                 />
             </React.Fragment>
         )

@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {Card, Input, Image} from 'semantic-ui-react';
+import {Card, Image, Search} from 'semantic-ui-react';
 
 export default class SearchForm extends PureComponent {
 
@@ -10,59 +10,59 @@ export default class SearchForm extends PureComponent {
         }
     };
 
+    handleResultSelect = (e, {result}) => {
+        console.log(e);
+        this.props.selectTournament(result.id);
+    };
+
+    handleSearchChange = (e, {value}) => {
+        e.persist();
+        this.getTournaments(e);
+    };
+
+    handleOnBlur = (e) => {
+        e.persist();
+        this.props.removeSearchResults();
+    };
+
+    resultRenderer(item) {
+        return (
+            <Card style={{cursor: 'pointer', width: '100%'}}>
+                <Card.Content>
+                    <Image floated='right' size='mini' src={item.image}/>
+                    <Card.Header>{item.title}</Card.Header>
+                    <Card.Meta>{`Score: ${item.score}`}</Card.Meta>
+                    <Card.Description>
+                        {item.description}
+                    </Card.Description>
+                </Card.Content>
+            </Card>
+        );
+    }
+
+
     render() {
         const {
             tournaments,
             pending,
-            getTournaments,
-            selectTournament,
-            removeSearchResults,
         } = this.props;
         return (
             <div>
                 <Card style={{width: '100%'}}>
-                    <Card.Content>
-                        <Card.Header>
-                            <Input icon='search'
-                                   placeholder='Search for tournaments...'
-                                   style={{width: '100%'}}
-                                   loading={pending}
-                                   onChange={this.getTournaments}
-                            />
-                        </Card.Header>
-                        {
-                            tournaments ? (
-                                <Card.Description>
-                                    {
-                                        tournaments && tournaments.length ? (
-                                            <Card.Group>
-                                                {
-                                                    tournaments && tournaments.map((item, i) => {
-                                                        return (
-                                                            <Card style={{cursor: 'pointer'}} key={i} onClick={() => selectTournament(i)}>
-                                                                <Card.Content>
-                                                                    <Image floated='right' size='mini' src={item.image}/>
-                                                                    <Card.Header>{item.title}</Card.Header>
-                                                                    <Card.Meta>{`Score: ${item.score}`}</Card.Meta>
-                                                                    <Card.Description>
-                                                                        {item.description}
-                                                                    </Card.Description>
-                                                                </Card.Content>
-                                                            </Card>
-                                                        );
-                                                    })
-                                                }
-                                            </Card.Group>
-                                        ) : (
-                                            <h4>
-                                                Sorry no Tournaments!!!
-                                            </h4>
-                                        )
-                                    }
-                                </Card.Description>
-                            ) : null
-                        }
-                    </Card.Content>
+                    <div style={{width: '100%'}}>
+                        <Search
+                            loading={pending}
+                            onResultSelect={this.handleResultSelect}
+                            onSearchChange={this.handleSearchChange}
+                            onBlur={e => this.handleOnBlur(e)}
+                            results={tournaments}
+                            size={'small'}
+                            input={'text'}
+                            fluid
+                            resultRenderer={this.resultRenderer}
+                            className='search'
+                        />
+                    </div>
                 </Card>
             </div>
         );

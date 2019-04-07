@@ -31,7 +31,7 @@ export const tournamentReducer = (state = initState, action) => {
                 draft['tournaments'] = null;
                 break;
             case actionTypes.selectTournament:
-                const selected = draft['tournaments'][payload];
+                const selected = draft['tournaments'].find(item => item.id === payload);
                 const found = draft['selectedTournaments'].find(item => item.id === selected.id);
                 if (!found) {
                     draft['selectedTournaments'].push(selected);

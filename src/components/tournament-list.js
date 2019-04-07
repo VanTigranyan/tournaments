@@ -16,7 +16,7 @@ export default class TournamentList extends PureComponent {
                         </Card.Header>
                     </Card.Content>
                     <Card.Content extra>
-                        <Card.Group>
+                        <Card.Group style={{justifyContent: 'center'}}>
                             {
                                 tournaments.length ? (
                                     tournaments && tournaments.map((item, i) => {

@@ -2,3 +2,15 @@
   position: relative;
   cursor: pointer;
 }
+
+.search {
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  color: black;
+}
+
+.search .input {
+  width: 90%;
+  margin: 20px;
+}
